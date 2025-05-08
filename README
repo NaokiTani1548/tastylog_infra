@@ -1,0 +1,53 @@
+# AWS と Terraform で実現する Infrastructure as Code
+
+## 疑問点
+
+1. Sec3-8: IAM ユーザーの作成(NISLAB で OK?現時点では自分の AWS アカウント)
+2. Sec4-17: 再作成がなされない（コメントで言及される"user_data_replace_on_change = true"もだめ）
+3. Sec7-36: AZ が ap-northeast-1a でサブネットを作ろうとすると"Unavailable"になる
+
+## 動画内で必要だったIAMポリシー
+1. Sec11-62: ec2:DeleteTags (現時点で必須ではない)
+
+## コマンド
+
+### terraform 関連
+
+- 初期化
+
+```bash
+$ terraform init
+```
+
+- 変更の適用
+
+```bash
+$ terraform apply (-auto-approve)(-var <KEY>=<VALUE>)(-var-file <VAR_FILE>)
+```
+
+- 起動したインスタンスの削除
+
+```bash
+$ terraform destroy (-auto-approve)
+```
+
+- 変更の確認
+
+```bash
+$ terraform plan (-var <KEY>=<VALUE>)(-var-file <VAR_FILE>)
+```
+
+- フォーマッター
+
+```bash
+$ terraform fmt
+```
+### 踏み台サーバ経由MySQL接続
+- SSH接続
+```bash
+$ ssh -i .\tmp-tastylog-dev-keypair.pem ec2-user@3.113.248.145
+```
+- MySQL接続
+```bash
+$  mysql -h"${MYSQL_HOST}" -P"${MYSQL_PORT}" -u"${MYSQL_USERNAME}" -p"${MYSQL_PASSWORD}"
+```
